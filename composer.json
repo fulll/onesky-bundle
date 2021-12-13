@@ -1,7 +1,7 @@
 {
   "name": "fulll/onesky-bundle",
   "description": "One Sky Bundle for PHP",
-  "keywords": ["php", "translation", "onesky", "bundle", "symfony"]
+  "keywords": ["php", "translation", "onesky", "bundle", "symfony"],
   "minimum-stability": "stable",
   "license": "MIT",
   "type": "symfony-bundle",
