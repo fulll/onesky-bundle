@@ -7,7 +7,7 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways;
  */
 interface LanguageGateway
 {
-    const LANGUAGES_METHOD = 'languages';
+    public const LANGUAGES_METHOD = 'languages';
 
     /**
      * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]

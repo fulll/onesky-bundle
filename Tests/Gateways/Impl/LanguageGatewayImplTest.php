@@ -13,7 +13,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\OneSky\Api\ClientMock;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class LanguageGatewayImplTest extends \PHPUnit_Framework_TestCase
+class LanguageGatewayImplTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var LanguageGateway
@@ -21,28 +21,23 @@ class LanguageGatewayImplTest extends \PHPUnit_Framework_TestCase
     private $gateway;
 
     /**
-     * @test
      * @expectedException \OpenClassrooms\Bundle\OneSkyBundle\Gateways\LanguageException
      */
-    public function ApiException_findLanguage_ThrowException()
+    public function testApiExceptionFindLanguageThrowException()
     {
         ClientMock::$languagesContent = '{"meta": {"status": 400}}';
         $this->gateway->findLanguages([]);
     }
 
     /**
-     * @test
      * @expectedException \OpenClassrooms\Bundle\OneSkyBundle\Gateways\LanguageNotFoundException
      */
-    public function NonExistingLanguage_findLanguages_ThrowException()
+    public function testNonExistingLanguageFindLanguagesThrowException()
     {
         $this->gateway->findLanguages(['fr']);
     }
 
-    /**
-     * @test
-     */
-    public function findLanguages()
+    public function testFindLanguages()
     {
         $actualLanguages = $this->gateway->findLanguages([LanguageStub1::LOCALE, LanguageStub2::LOCALE]);
         $expectedLanguages = [new LanguageStub1(), new LanguageStub2()];

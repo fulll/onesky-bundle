@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TranslationUploadTranslationEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.upload_translation';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.upload_translation';
 
     /**
      * @var UploadFile

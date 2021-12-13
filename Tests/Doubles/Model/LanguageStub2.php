@@ -9,7 +9,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\LanguageImpl;
  */
 class LanguageStub2 extends LanguageImpl
 {
-    const LOCALE = 'ja';
+    public const LOCALE = 'ja';
 
     protected $locale = self::LOCALE;
 

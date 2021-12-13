@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TranslationPostPullEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.post_pull';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.post_pull';
 
     /**
      * @var ExportFile[]

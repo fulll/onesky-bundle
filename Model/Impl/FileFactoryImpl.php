@@ -56,7 +56,7 @@ class FileFactoryImpl implements FileFactory
      */
     public function createUploadFile($filePath, $locale = null)
     {
-        $file =  new UploadFileImpl(
+        $file = new UploadFileImpl(
             $this->projectId,
             $filePath,
             $this->getProjectDirectory(),

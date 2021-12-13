@@ -10,9 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UpdateCommand extends Command
 {
-    const COMMAND_NAME = 'openclassrooms:one-sky:update';
+    public const COMMAND_NAME = 'openclassrooms:one-sky:update';
 
-    const COMMAND_DESCRIPTION = 'Update translations';
+    public const COMMAND_DESCRIPTION = 'Update translations';
 
     protected function configure()
     {

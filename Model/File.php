@@ -7,11 +7,11 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Model;
  */
 abstract class File
 {
-    const FILENAME_SEPARATOR = '__';
+    public const FILENAME_SEPARATOR = '__';
 
-    const PROJECT_ID = 'project_id';
+    public const PROJECT_ID = 'project_id';
 
-    const SOURCE_FILE_PATH = 'file';
+    public const SOURCE_FILE_PATH = 'file';
 
     /**
      * @var int
@@ -28,9 +28,6 @@ abstract class File
      */
     protected $sourceFilePathRelativeToProject;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($projectId, $sourceFilePath, $projectDirectory)
     {
         $this->projectId = $projectId;
@@ -56,6 +53,6 @@ abstract class File
      */
     public function getEncodedSourceFileName()
     {
-        return str_replace(DIRECTORY_SEPARATOR, self::FILENAME_SEPARATOR, $this->sourceFilePathRelativeToProject);
+        return str_replace(\DIRECTORY_SEPARATOR, self::FILENAME_SEPARATOR, $this->sourceFilePathRelativeToProject);
     }
 }

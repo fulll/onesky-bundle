@@ -30,9 +30,8 @@ class InMemoryLanguageGateway implements LanguageGateway
         foreach ($locales as $locale) {
             if (!isset(self::$languages[$locale])) {
                 throw new LanguageNotFoundException();
-            } else {
-                $languages[] = self::$languages[$locale];
             }
+            $languages[] = self::$languages[$locale];
         }
 
         return $languages;

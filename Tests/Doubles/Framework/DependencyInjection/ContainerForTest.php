@@ -3,12 +3,15 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Framework\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ScopeInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
 class ContainerForTest implements ContainerInterface
 {
+    public const SCOPE_CONTAINER_TEST = 'container';
+
     /**
      * @var string[]
      */
@@ -19,7 +22,7 @@ class ContainerForTest implements ContainerInterface
      */
     public static $services;
 
-    public function __construct(array $parameters = [], array $services = [])
+    public function __construct(array $parameters = [], array $services = [], $scope = self::SCOPE_CONTAINER_TEST)
     {
         self::$parameters = $parameters;
         self::$services = $services;
@@ -28,15 +31,14 @@ class ContainerForTest implements ContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function set($id, $service)
+    public function set($id, $service, $scope = self::SCOPE_CONTAINER_TEST)
     {
-        return;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get($id, $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE)
+    public function get($id, $invalidBehavior = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE)
     {
         return self::$services[$id];
     }
@@ -46,7 +48,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function has($id)
     {
-        return;
     }
 
     /**
@@ -54,7 +55,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function initialized($id)
     {
-        return;
     }
 
     /**
@@ -70,7 +70,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function hasParameter($name)
     {
-        return;
     }
 
     /**
@@ -78,6 +77,40 @@ class ContainerForTest implements ContainerInterface
      */
     public function setParameter($name, $value)
     {
-        return;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function enterScope($name)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addScope(ScopeInterface $scope)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function leaveScope($name)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasScope($name)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isScopeActive($name)
+    {
     }
 }

@@ -2,13 +2,13 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl;
 
-use Guzzle\Http\Exception\ServerErrorResponseException;
 use Onesky\Api\Client;
 use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationDownloadTranslationEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationUploadTranslationEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\FileGateway;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\InvalidContentException;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\NonExistingTranslationException;
+use OpenClassrooms\Bundle\OneSkyBundle\Gateways\ServerException;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -71,12 +71,15 @@ class FileGatewayImpl implements FileGateway
     {
         if (0 === strpos($downloadedContent, '{')) {
             $json = json_decode($downloadedContent, true);
-            if (400 === $json['meta']['status']) {
+
+            if (null !== $json && \array_key_exists('meta', $json) && 400 === $json['meta']['status']) {
                 throw new NonExistingTranslationException($file->getTargetFilePath());
             }
-            if (500 === $json['meta']['status']) {
-                throw new ServerErrorResponseException($file->getTargetFilePath());
+
+            if (null !== $json && \array_key_exists('meta', $json) && 500 === $json['meta']['status']) {
+                throw new ServerException($file->getTargetFilePath());
             }
+
             throw new InvalidContentException($downloadedContent);
         }
     }

@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TranslationPrePullEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.pre_pull';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.pre_pull';
 
     /**
      * @var ExportFile[]
@@ -38,6 +38,6 @@ class TranslationPrePullEvent extends Event
      */
     public function getExportFilesCount()
     {
-        return count($this->exportFiles);
+        return \count($this->exportFiles);
     }
 }

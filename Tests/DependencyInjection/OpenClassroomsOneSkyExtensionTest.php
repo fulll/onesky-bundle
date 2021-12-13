@@ -10,12 +10,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class OpenClassroomsOneSkyExtensionTest extends \PHPUnit_Framework_TestCase
+class OpenClassroomsOneSkyExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function container_compile()
+    public function testContainerCompile()
     {
         $container = new ContainerBuilder();
         $bundle = new OpenClassroomsOneSkyBundle();
@@ -29,6 +26,11 @@ class OpenClassroomsOneSkyExtensionTest extends \PHPUnit_Framework_TestCase
 
         $container->setParameter('kernel.root_dir', __DIR__.'/../../');
         $container->compile();
-        $this->assertTrue($container->isFrozen());
+
+        if (method_exists($container, 'isFrozen')) {
+            $this->assertTrue($container->isFrozen());
+        } else {
+            $this->assertTrue($container->isCompiled());
+        }
     }
 }

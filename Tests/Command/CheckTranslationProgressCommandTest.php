@@ -12,7 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class CheckTranslationProgressCommandTest extends \PHPUnit_Framework_TestCase
+class CheckTranslationProgressCommandTest extends \PHPUnit\Framework\TestCase
 {
     use CommandTestCase;
 
@@ -21,20 +21,16 @@ class CheckTranslationProgressCommandTest extends \PHPUnit_Framework_TestCase
      */
     private $commandTester;
 
-    /**
-     * @test
-     */
-    public function without_locales_execute()
+    public function testWithoutLocalesExecute()
     {
-        $this->commandTester->execute(['command' => CheckTranslationProgressCommand::COMMAND_NAME]);
+        $this->commandTester->execute([
+            'command' => CheckTranslationProgressCommand::COMMAND_NAME,
+        ]);
         $this->assertEquals([], LanguageServiceMock::$locales);
         $this->assertTrue(LanguageServiceMock::$calledGetLanguages);
     }
 
-    /**
-     * @test
-     */
-    public function with_locales_execute()
+    public function testWithLocalesExecute()
     {
         LanguageServiceMock::$languages = [new LanguageStub1(), new LanguageStub2()];
         $exitCode = $this->commandTester->execute(
@@ -45,10 +41,7 @@ class CheckTranslationProgressCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $exitCode);
     }
 
-    /**
-     * @test
-     */
-    public function WithFullProgression()
+    public function testWithFullProgression()
     {
         LanguageServiceMock::$languages = [new LanguageStub1()];
         $exitCode = $this->commandTester->execute(
