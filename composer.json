@@ -1,6 +1,7 @@
 {
-  "name": "openclassrooms/onesky-bundle",
-  "description": "One Sky Bundle",
+  "name": "fulll/onesky-bundle",
+  "description": "One Sky Bundle for PHP",
+  "keywords": ["php", "translation", "onesky", "bundle", "symfony"]
   "minimum-stability": "stable",
   "license": "MIT",
   "type": "symfony-bundle",
@@ -12,6 +13,10 @@
     {
       "name": "OpenClassrooms",
       "email": "tech@openclassrooms.com"
+    },
+    {
+      "name": "Fulll Team",
+      "homepage": "https://github.com/fulll/onesky-bundle/graphs/contributors"
     }
   ],
   "autoload": {
