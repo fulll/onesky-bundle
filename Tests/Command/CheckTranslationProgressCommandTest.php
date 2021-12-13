@@ -23,7 +23,9 @@ class CheckTranslationProgressCommandTest extends \PHPUnit\Framework\TestCase
 
     public function testWithoutLocalesExecute()
     {
-        $this->commandTester->execute(['command' => CheckTranslationProgressCommand::COMMAND_NAME]);
+        $this->commandTester->execute([
+            'command' => CheckTranslationProgressCommand::COMMAND_NAME,
+        ]);
         $this->assertEquals([], LanguageServiceMock::$locales);
         $this->assertTrue(LanguageServiceMock::$calledGetLanguages);
     }

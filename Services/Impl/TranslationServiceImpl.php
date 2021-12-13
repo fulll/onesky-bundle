@@ -100,7 +100,8 @@ class TranslationServiceImpl implements TranslationService
         return Finder::create()
             ->files()
             ->in($this->getFilePaths($filePaths))
-            ->name('*.{'.implode(',', $locales).'}.'.$this->fileFormat);
+            ->name('*.{'.implode(',', $locales).'}.'.$this->fileFormat)
+            ->sortByName();
     }
 
     /**

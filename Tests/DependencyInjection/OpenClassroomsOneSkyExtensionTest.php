@@ -26,6 +26,11 @@ class OpenClassroomsOneSkyExtensionTest extends \PHPUnit\Framework\TestCase
 
         $container->setParameter('kernel.root_dir', __DIR__.'/../../');
         $container->compile();
-        $this->assertTrue($container->isFrozen());
+
+        if (method_exists($container, 'isFrozen')) {
+            $this->assertTrue($container->isFrozen());
+        } else {
+            $this->assertTrue($container->isCompiled());
+        }
     }
 }

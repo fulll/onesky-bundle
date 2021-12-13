@@ -167,7 +167,10 @@ class TranslationServiceImplTest extends \PHPUnit\Framework\TestCase
             [$this->buildExportFile1es(), $this->buildExportFile2es()],
             FileServiceMock::$downloadedFiles
         );
-        $this->assertEquals([$this->buildUploadFile1(), $this->buildUploadFile2()], FileServiceMock::$uploadedFiles);
+        $this->assertEquals(
+            [$this->buildUploadFile1(), $this->buildUploadFile2()],
+            FileServiceMock::$uploadedFiles
+        );
     }
 
     /**

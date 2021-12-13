@@ -94,11 +94,21 @@ class FileGatewayImplTest extends \PHPUnit\Framework\TestCase
     public function testWithFileNotOnApiExceptionDownloadDoNothing()
     {
         ClientMock::$downloadedContent = '{"meta":{"status":400,"message":"Invalid source file"},"data":{}}';
-        $this->gateway->downloadTranslations([new ExportFileStub1()]);
+
+        $exception = null;
+
+        try {
+            $this->gateway->downloadTranslations([new ExportFileStub1()]);
+        } catch (\Exception $e) {
+            $exception = $e;
+        }
+
+        // exception is silent
+        $this->assertNull($exception);
     }
 
     /**
-     * @expectedException \Guzzle\Http\Exception\ServerErrorResponseException
+     * @expectedException \OpenClassrooms\Bundle\OneSkyBundle\Gateways\ServerException
      */
     public function testApiServerErrorDownloadThrowException()
     {
