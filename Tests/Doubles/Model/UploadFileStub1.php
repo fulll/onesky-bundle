@@ -7,9 +7,9 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Model;
  */
 class UploadFileStub1 extends UploadFileStub
 {
-    const IS_KEEPING_ALL_STRINGS = true;
+    public const IS_KEEPING_ALL_STRINGS = true;
 
-    const SOURCE_FILE_PATH = __DIR__.'/../../Fixtures/Resources/translations/messages.en.yml';
+    public const SOURCE_FILE_PATH = __DIR__.'/../../Fixtures/Resources/translations/messages.en.yml';
 
     protected $isKeepingAllStrings = self::IS_KEEPING_ALL_STRINGS;
 
@@ -23,5 +23,4 @@ class UploadFileStub1 extends UploadFileStub
             self::SOURCE_LOCALE
         );
     }
-
 }

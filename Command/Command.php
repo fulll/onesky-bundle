@@ -70,13 +70,13 @@ abstract class Command extends ContainerAwareCommand
             TranslationPostPullEvent::getEventName(),
             function (TranslationPostPullEvent $event) use ($output) {
                 $this->progressBar->finish();
-                $output->writeln('<info>'.count($event->getDownloadedFiles()).' files downloaded. </info>');
+                $output->writeln('<info>'.\count($event->getDownloadedFiles()).' files downloaded. </info>');
                 $table = new Table($output);
                 $table
                     ->setHeaders(['File', 'Locale'])
                     ->setRows(
                         array_map(
-                            function (ExportFile $file) {
+                            static function (ExportFile $file) {
                                 return [$file->getSourceFilePathRelativeToProject(), $file->getRequestedLocale()];
                             },
                             $event->getDownloadedFiles()
@@ -129,13 +129,13 @@ abstract class Command extends ContainerAwareCommand
             function (TranslationPostPushEvent $event) use ($output) {
                 $this->progressBar->finish();
                 $output->writeln('');
-                $output->writeln('<info>'.count($event->getUploadedFiles()).' files downloaded. </info>');
+                $output->writeln('<info>'.\count($event->getUploadedFiles()).' files downloaded. </info>');
                 $table = new Table($output);
                 $table
                     ->setHeaders(['File', 'Locale'])
                     ->setRows(
                         array_map(
-                            function (UploadFile $file) {
+                            static function (UploadFile $file) {
                                 return [$file->getSourceFilePathRelativeToProject(), $file->getSourceLocale()];
                             },
                             $event->getUploadedFiles()

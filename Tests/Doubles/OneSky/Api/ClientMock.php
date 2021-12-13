@@ -74,7 +74,7 @@ class ClientMock extends Client
         self::$action = $action;
         self::$parameters = $parameters;
 
-        if ($action === 'languages') {
+        if ('languages' === $action) {
             return self::$languagesContent;
         }
     }

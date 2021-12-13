@@ -11,9 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class PullCommand extends Command
 {
-    const COMMAND_NAME = 'openclassrooms:one-sky:pull';
+    public const COMMAND_NAME = 'openclassrooms:one-sky:pull';
 
-    const COMMAND_DESCRIPTION = 'Pull translations';
+    public const COMMAND_DESCRIPTION = 'Pull translations';
 
     protected function configure()
     {

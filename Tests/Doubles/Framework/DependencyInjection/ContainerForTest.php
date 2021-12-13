@@ -30,7 +30,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function set($id, $service)
     {
-        return;
     }
 
     /**
@@ -46,7 +45,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function has($id)
     {
-        return;
     }
 
     /**
@@ -54,7 +52,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function initialized($id)
     {
-        return;
     }
 
     /**
@@ -70,7 +67,6 @@ class ContainerForTest implements ContainerInterface
      */
     public function hasParameter($name)
     {
-        return;
     }
 
     /**
@@ -78,6 +74,5 @@ class ContainerForTest implements ContainerInterface
      */
     public function setParameter($name, $value)
     {
-        return;
     }
 }

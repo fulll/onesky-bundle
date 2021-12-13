@@ -16,31 +16,25 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
+class FileGatewayImplTest extends \PHPUnit\Framework\TestCase
 {
-    const EXPECTED_DOWNLOADED_FILE_1 = __DIR__.'/../../Fixtures/Resources/translations/messages.fr.yml';
+    public const EXPECTED_DOWNLOADED_FILE_1 = __DIR__.'/../../Fixtures/Resources/translations/messages.fr.yml';
 
-    const EXPECTED_DOWNLOADED_FILE_2 = __DIR__.'/../../Fixtures/Resources/translations/subDirectory/messages.fr.yml';
+    public const EXPECTED_DOWNLOADED_FILE_2 = __DIR__.'/../../Fixtures/Resources/translations/subDirectory/messages.fr.yml';
 
     /**
      * @var FileGateway
      */
     private $gateway;
 
-    /**
-     * @test
-     */
-    public function WithoutFiles_upload_DoNothing()
+    public function testWithoutFilesUploadDoNothing()
     {
         $uploadedTranslations = $this->gateway->uploadTranslations([]);
         $this->assertNull(ClientMock::$action);
         $this->assertEmpty($uploadedTranslations);
     }
 
-    /**
-     * @test
-     */
-    public function OneFile_upload()
+    public function testOneFileUpload()
     {
         $uploadFileStub1 = new UploadFileStub1();
         $uploadedTranslations = $this->gateway->uploadTranslations([$uploadFileStub1]);
@@ -48,10 +42,10 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 [
-                    UploadFile::PROJECT_ID             => UploadFileStub1::PROJECT_ID,
-                    UploadFile::SOURCE_FILE_PATH       => $uploadFileStub1->getFormattedFilePath(),
-                    UploadFile::FILE_FORMAT            => UploadFileStub1::FILE_FORMAT,
-                    UploadFile::SOURCE_LOCALE          => UploadFileStub1::SOURCE_LOCALE,
+                    UploadFile::PROJECT_ID => UploadFileStub1::PROJECT_ID,
+                    UploadFile::SOURCE_FILE_PATH => $uploadFileStub1->getFormattedFilePath(),
+                    UploadFile::FILE_FORMAT => UploadFileStub1::FILE_FORMAT,
+                    UploadFile::SOURCE_LOCALE => UploadFileStub1::SOURCE_LOCALE,
                     UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub1::IS_KEEPING_ALL_STRINGS,
                 ],
             ],
@@ -60,10 +54,7 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([new UploadFileStub1()], $uploadedTranslations);
     }
 
-    /**
-     * @test
-     */
-    public function ManyFiles_upload_Upload()
+    public function testManyFilesUploadUpload()
     {
         $uploadFileStub1 = new UploadFileStub1();
         $uploadFileStub2 = new UploadFileStub2();
@@ -72,18 +63,18 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 [
-                    UploadFile::PROJECT_ID             => UploadFileStub1::PROJECT_ID,
-                    UploadFile::SOURCE_FILE_PATH       => $uploadFileStub1->getFormattedFilePath(),
-                    UploadFile::FILE_FORMAT            => UploadFileStub1::FILE_FORMAT,
-                    UploadFile::SOURCE_LOCALE          => UploadFileStub1::SOURCE_LOCALE,
+                    UploadFile::PROJECT_ID => UploadFileStub1::PROJECT_ID,
+                    UploadFile::SOURCE_FILE_PATH => $uploadFileStub1->getFormattedFilePath(),
+                    UploadFile::FILE_FORMAT => UploadFileStub1::FILE_FORMAT,
+                    UploadFile::SOURCE_LOCALE => UploadFileStub1::SOURCE_LOCALE,
                     UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub1::IS_KEEPING_ALL_STRINGS,
                 ],
                 [
-                    UploadFile::PROJECT_ID             => UploadFileStub2::PROJECT_ID,
-                    UploadFile::SOURCE_FILE_PATH       => $uploadFileStub2->getFormattedFilePath(),
-                    UploadFile::FILE_FORMAT            => UploadFileStub2::FILE_FORMAT,
-                    UploadFile::SOURCE_LOCALE          => UploadFileStub2::SOURCE_LOCALE,
-                    UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub2::IS_KEEPING_ALL_STRINGS
+                    UploadFile::PROJECT_ID => UploadFileStub2::PROJECT_ID,
+                    UploadFile::SOURCE_FILE_PATH => $uploadFileStub2->getFormattedFilePath(),
+                    UploadFile::FILE_FORMAT => UploadFileStub2::FILE_FORMAT,
+                    UploadFile::SOURCE_LOCALE => UploadFileStub2::SOURCE_LOCALE,
+                    UploadFile::IS_KEEPING_ALL_STRINGS => UploadFileStub2::IS_KEEPING_ALL_STRINGS,
                 ],
             ],
             ClientMock::$parameters
@@ -92,48 +83,37 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \OpenClassrooms\Bundle\OneSkyBundle\Gateways\InvalidContentException
      */
-    public function WithApiException_download_ThrowException()
+    public function testWithApiExceptionDownloadThrowException()
     {
         ClientMock::$downloadedContent = '{exception}';
         $this->gateway->downloadTranslations([new ExportFileStub1()]);
     }
 
-    /**
-     * @test
-     */
-    public function WithFileNotOnApiException_download_DoNothing()
+    public function testWithFileNotOnApiExceptionDownloadDoNothing()
     {
         ClientMock::$downloadedContent = '{"meta":{"status":400,"message":"Invalid source file"},"data":{}}';
         $this->gateway->downloadTranslations([new ExportFileStub1()]);
     }
 
     /**
-     * @test
      * @expectedException \Guzzle\Http\Exception\ServerErrorResponseException
      */
-    public function ApiServerError_download_ThrowException()
+    public function testApiServerErrorDownloadThrowException()
     {
         ClientMock::$downloadedContent = '{"meta":{"status":500,"message":"Something went wrong. Please try again or contact us at support@oneskyapp.com"},"data":{}}';
         $this->gateway->downloadTranslations([new ExportFileStub1()]);
     }
 
-    /**
-     * @test
-     */
-    public function WithoutFile_download_DoNothing()
+    public function testWithoutFileDownloadDoNothing()
     {
         $downloadedTranslations = $this->gateway->downloadTranslations([]);
         $this->assertNull(ClientMock::$action);
         $this->assertEmpty($downloadedTranslations);
     }
 
-    /**
-     * @test
-     */
-    public function WithOneFile_download_Download()
+    public function testWithOneFileDownloadDownload()
     {
         $exportFileStub1 = new ExportFileStub1();
         $downloadedTranslations = $this->gateway->downloadTranslations([$exportFileStub1]);
@@ -142,8 +122,8 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
             ClientMock::$parameters,
             [
                 [
-                    ExportFile::PROJECT_ID                 => ExportFileStub1::PROJECT_ID,
-                    ExportFile::REQUESTED_LOCALE           => ExportFileStub1::REQUESTED_LOCALE,
+                    ExportFile::PROJECT_ID => ExportFileStub1::PROJECT_ID,
+                    ExportFile::REQUESTED_LOCALE => ExportFileStub1::REQUESTED_LOCALE,
                     ExportFile::REQUESTED_SOURCE_FILE_NAME => $exportFileStub1->getEncodedSourceFileName(),
                 ],
             ]
@@ -152,10 +132,7 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([new ExportFileStub1()], $downloadedTranslations);
     }
 
-    /**
-     * @test
-     */
-    public function WithManyFiles_upload_Upload()
+    public function testWithManyFilesUploadUpload()
     {
         $exportFileStub1 = new ExportFileStub1();
         $exportFileStub2 = new ExportFileStub2();
@@ -165,13 +142,13 @@ class FileGatewayImplTest extends \PHPUnit_Framework_TestCase
             ClientMock::$parameters,
             [
                 [
-                    ExportFile::PROJECT_ID                 => ExportFileStub1::PROJECT_ID,
-                    ExportFile::REQUESTED_LOCALE           => ExportFileStub1::REQUESTED_LOCALE,
+                    ExportFile::PROJECT_ID => ExportFileStub1::PROJECT_ID,
+                    ExportFile::REQUESTED_LOCALE => ExportFileStub1::REQUESTED_LOCALE,
                     ExportFile::REQUESTED_SOURCE_FILE_NAME => $exportFileStub1->getEncodedSourceFileName(),
                 ],
                 [
-                    ExportFile::PROJECT_ID                 => ExportFileStub2::PROJECT_ID,
-                    ExportFile::REQUESTED_LOCALE           => ExportFileStub2::REQUESTED_LOCALE,
+                    ExportFile::PROJECT_ID => ExportFileStub2::PROJECT_ID,
+                    ExportFile::REQUESTED_LOCALE => ExportFileStub2::REQUESTED_LOCALE,
                     ExportFile::REQUESTED_SOURCE_FILE_NAME => $exportFileStub2->getEncodedSourceFileName(),
                 ],
             ]

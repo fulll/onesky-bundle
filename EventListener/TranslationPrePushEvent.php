@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TranslationPrePushEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.pre_push';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.pre_push';
 
     /**
      * @var UploadFile[]
@@ -38,6 +38,6 @@ class TranslationPrePushEvent extends Event
      */
     public function getUploadFilesCount()
     {
-        return count($this->uploadFiles);
+        return \count($this->uploadFiles);
     }
 }

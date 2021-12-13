@@ -7,9 +7,9 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Model;
  */
 abstract class ExportFile extends File
 {
-    const REQUESTED_LOCALE = 'locale';
+    public const REQUESTED_LOCALE = 'locale';
 
-    const REQUESTED_SOURCE_FILE_NAME = 'source_file_name';
+    public const REQUESTED_SOURCE_FILE_NAME = 'source_file_name';
 
     /**
      * @var string
@@ -37,7 +37,7 @@ abstract class ExportFile extends File
     public function getTargetFilePath()
     {
         $explodedFilePath = explode('.', $this->sourceFilePath);
-        $explodedFilePath[count($explodedFilePath) - 2] = $this->requestedLocale;
+        $explodedFilePath[\count($explodedFilePath) - 2] = $this->requestedLocale;
 
         return implode('.', $explodedFilePath);
     }
@@ -48,7 +48,7 @@ abstract class ExportFile extends File
     public function getTargetFilePathRelativeToProject()
     {
         $explodedFilePath = explode('.', $this->sourceFilePathRelativeToProject);
-        $explodedFilePath[count($explodedFilePath) - 2] = $this->requestedLocale;
+        $explodedFilePath[\count($explodedFilePath) - 2] = $this->requestedLocale;
 
         return implode('.', $explodedFilePath);
     }

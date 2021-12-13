@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class TranslationUpdateEvent extends Event
 {
-    const EVENT_NAME = 'openclassrooms.onesky.event.update';
+    public const EVENT_NAME = 'openclassrooms.onesky.event.update';
 
     /**
      * @return string

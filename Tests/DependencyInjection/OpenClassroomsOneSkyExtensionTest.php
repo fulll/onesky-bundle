@@ -10,12 +10,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class OpenClassroomsOneSkyExtensionTest extends \PHPUnit_Framework_TestCase
+class OpenClassroomsOneSkyExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @test
-     */
-    public function container_compile()
+    public function testContainerCompile()
     {
         $container = new ContainerBuilder();
         $bundle = new OpenClassroomsOneSkyBundle();

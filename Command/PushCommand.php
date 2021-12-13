@@ -11,9 +11,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class PushCommand extends Command
 {
-    const COMMAND_NAME = 'openclassrooms:one-sky:push';
+    public const COMMAND_NAME = 'openclassrooms:one-sky:push';
 
-    const COMMAND_DESCRIPTION = 'Push translations';
+    public const COMMAND_DESCRIPTION = 'Push translations';
 
     protected function configure()
     {

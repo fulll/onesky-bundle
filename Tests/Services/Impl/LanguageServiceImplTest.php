@@ -11,26 +11,20 @@ use OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Model\LanguageStub2;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class LanguageServiceImplTest extends \PHPUnit_Framework_TestCase
+class LanguageServiceImplTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var LanguageService
      */
     private $service;
 
-    /**
-     * @test
-     */
-    public function WithoutLocales_getLanguage()
+    public function testWithoutLocalesGetLanguage()
     {
         $languages = $this->service->getLanguages();
         $this->assertEquals([new LanguageStub2()], $languages);
     }
 
-    /**
-     * @test
-     */
-    public function getLanguage()
+    public function testGetLanguage()
     {
         $languages = $this->service->getLanguages([LanguageStub1::LOCALE, LanguageStub2::LOCALE]);
         $this->assertEquals([new LanguageStub1(), new LanguageStub2()], $languages);

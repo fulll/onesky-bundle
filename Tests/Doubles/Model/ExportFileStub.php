@@ -9,7 +9,7 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\ExportFileImpl;
  */
 abstract class ExportFileStub extends ExportFileImpl
 {
-    const PROJECT_ID = 1;
+    public const PROJECT_ID = 1;
 
-    const PROJECT_DIRECTORY = __DIR__.'/../../../';
+    public const PROJECT_DIRECTORY = __DIR__.'/../../../';
 }

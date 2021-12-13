@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class UpdateCommandTest extends \PHPUnit_Framework_TestCase
+class UpdateCommandTest extends \PHPUnit\Framework\TestCase
 {
     use CommandTestCase;
 
@@ -19,10 +19,7 @@ class UpdateCommandTest extends \PHPUnit_Framework_TestCase
      */
     private $commandTester;
 
-    /**
-     * @test
-     */
-    public function execute()
+    public function testExecute()
     {
         $this->commandTester->execute(['command' => UpdateCommand::COMMAND_NAME]);
         $this->assertTrue(TranslationServiceMock::$updateCalled);

@@ -10,7 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class PushCommandTest extends \PHPUnit_Framework_TestCase
+class PushCommandTest extends \PHPUnit\Framework\TestCase
 {
     use CommandTestCase;
 
@@ -19,37 +19,25 @@ class PushCommandTest extends \PHPUnit_Framework_TestCase
      */
     private $commandTester;
 
-    /**
-     * @test
-     */
-    public function without_locales_execute()
+    public function testWithoutLocalesExecute()
     {
         $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME]);
         $this->assertEquals([], TranslationServiceMock::$locales);
     }
 
-    /**
-     * @test
-     */
-    public function with_locales_execute()
+    public function testWithLocalesExecute()
     {
         $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--locale' => ['es']]);
         $this->assertEquals(['es'], TranslationServiceMock::$locales);
     }
 
-    /**
-     * @test
-     */
-    public function without_filePaths_execute()
+    public function testWithoutFilePathsExecute()
     {
         $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME]);
         $this->assertEquals([], TranslationServiceMock::$pushedFilePaths);
     }
 
-    /**
-     * @test
-     */
-    public function with_filePath_execute()
+    public function testWithFilePathExecute()
     {
         $this->commandTester->execute(['command' => PushCommand::COMMAND_NAME, '--filePath' => [self::$filePaths]]);
         $this->assertEquals([self::$filePaths], TranslationServiceMock::$pushedFilePaths);

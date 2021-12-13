@@ -10,9 +10,9 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
  */
 interface FileGateway
 {
-    const UPLOAD_METHOD = 'upload';
+    public const UPLOAD_METHOD = 'upload';
 
-    const DOWNLOAD_METHOD = 'export';
+    public const DOWNLOAD_METHOD = 'export';
 
     /**
      * @param ExportFile[] $files

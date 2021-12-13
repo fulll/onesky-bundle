@@ -14,9 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CheckTranslationProgressCommand extends ContainerAwareCommand
 {
-    const COMMAND_NAME = 'openclassrooms:one-sky:check-translation-progress';
+    public const COMMAND_NAME = 'openclassrooms:one-sky:check-translation-progress';
 
-    const COMMAND_DESCRIPTION = 'Check translations progress';
+    public const COMMAND_DESCRIPTION = 'Check translations progress';
 
     protected function configure()
     {
@@ -55,7 +55,7 @@ class CheckTranslationProgressCommand extends ContainerAwareCommand
             ->setHeaders(['Locale', 'Progression'])
             ->setRows(
                 array_map(
-                    function (Language $language) {
+                    static function (Language $language) {
                         return [$language->getLocale(), $language->getTranslationProgress()];
                     },
                     $languages

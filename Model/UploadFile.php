@@ -7,11 +7,11 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Model;
  */
 abstract class UploadFile extends File
 {
-    const IS_KEEPING_ALL_STRINGS = 'is_keeping_all_strings';
+    public const IS_KEEPING_ALL_STRINGS = 'is_keeping_all_strings';
 
-    const FILE_FORMAT = 'file_format';
+    public const FILE_FORMAT = 'file_format';
 
-    const SOURCE_LOCALE = 'locale';
+    public const SOURCE_LOCALE = 'locale';
 
     /**
      * @var string
@@ -49,11 +49,11 @@ abstract class UploadFile extends File
     public function format()
     {
         return [
-            self::PROJECT_ID             => $this->projectId,
-            self::SOURCE_FILE_PATH       => $this->formattedSourceFilePath,
-            self::FILE_FORMAT            => $this->fileFormat,
-            self::SOURCE_LOCALE          => $this->sourceLocale,
-            self::IS_KEEPING_ALL_STRINGS => $this->isKeepingAllStrings
+            self::PROJECT_ID => $this->projectId,
+            self::SOURCE_FILE_PATH => $this->formattedSourceFilePath,
+            self::FILE_FORMAT => $this->fileFormat,
+            self::SOURCE_LOCALE => $this->sourceLocale,
+            self::IS_KEEPING_ALL_STRINGS => $this->isKeepingAllStrings,
         ];
     }
 

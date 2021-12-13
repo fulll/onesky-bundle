@@ -13,65 +13,47 @@ use OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Model\UploadFileStub2;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class FileServiceImplTest extends \PHPUnit_Framework_TestCase
+class FileServiceImplTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var FileService
      */
     private $service;
 
-    /**
-     * @test
-     */
-    public function NoFile_upload_DonTUpload()
+    public function testNoFileUploadDonTUpload()
     {
         $this->service->upload([]);
         $this->assertEmpty(InMemoryFileGateway::$uploadedFiles);
     }
 
-    /**
-     * @test
-     */
-    public function OneFile_upload_Upload()
+    public function testOneFileUploadUpload()
     {
         $files = [new UploadFileStub1()];
         $this->service->upload($files);
         $this->assertEquals(InMemoryFileGateway::$uploadedFiles, $files);
     }
 
-    /**
-     * @test
-     */
-    public function ManyFiles_upload_Upload()
+    public function testManyFilesUploadUpload()
     {
         $files = [new UploadFileStub1(), new UploadFileStub2()];
         $this->service->upload($files);
         $this->assertEquals(InMemoryFileGateway::$uploadedFiles, $files);
     }
 
-    /**
-     * @test
-     */
-    public function NoFile_download_DonTDownload()
+    public function testNoFileDownloadDonTDownload()
     {
         $this->service->download([]);
         $this->assertEmpty(InMemoryFileGateway::$downloadedFiles);
     }
 
-    /**
-     * @test
-     */
-    public function OneFile_download_Download()
+    public function testOneFileDownloadDownload()
     {
         $files = [new ExportFileStub1()];
         $this->service->download($files);
         $this->assertEquals(InMemoryFileGateway::$downloadedFiles, $files);
     }
 
-    /**
-     * @test
-     */
-    public function ManyFiles_download_Download()
+    public function testManyFilesDownloadDownload()
     {
         $files = [new ExportFileStub1(), new ExportFileStub2()];
         $this->service->download($files);

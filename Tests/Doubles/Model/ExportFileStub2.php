@@ -7,9 +7,9 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Model;
  */
 class ExportFileStub2 extends ExportFileStub
 {
-    const SOURCE_FILE_PATH = __DIR__.'/../../Fixtures/Resources/translations/subDirectory/messages.en.yml';
+    public const SOURCE_FILE_PATH = __DIR__.'/../../Fixtures/Resources/translations/subDirectory/messages.en.yml';
 
-    const REQUESTED_LOCALE = 'fr';
+    public const REQUESTED_LOCALE = 'fr';
 
     public function __construct()
     {
