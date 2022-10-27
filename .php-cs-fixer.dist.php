@@ -56,6 +56,6 @@ return (new PhpCsFixer\Config())
             ->exclude([
                 'vendor',
             ])
-    //->notPath('somepath_to_a_file')
+        // ->notPath('somepath_to_a_file')
     )
-    ;
+;
