@@ -30,7 +30,7 @@ services:
         calls:
           - setKeepingAllStrings: ["%openclassrooms_onesky.keep_all_strings%"]
           - setFileFormat: ["%openclassrooms_onesky.file_format%"]
-          - setKernelRootDir: ["%kernel.root_dir%"]
+          - setKernelRootDir: ["%kernel.project_dir%"]
           - setProjectId: ["%openclassrooms_onesky.project_id%"]
           - setSourceLocale: ["%openclassrooms_onesky.source_locale%"]
 
@@ -40,14 +40,13 @@ services:
     openclassrooms.onesky.services.file_service:
         class: OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\FileServiceImpl
         calls:
-          - setFileGateway: "@openclassrooms.onesky.gateways.file"
+          - setFileGateway: ["@openclassrooms.onesky.gateways.file"]
 
     openclassrooms.onesky.services.language_service:
         class: OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\LanguageServiceImpl
         calls:
           - setLanguageGateway: ["@openclassrooms.onesky.gateways.language"]
-          - setRequestedLocales:
-            argument: "%openclassrooms_onesky.locales%"
+          - setRequestedLocales: ["%openclassrooms_onesky.locales%"]
 
     openclassrooms.onesky.services.translation_service:
         class: OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\TranslationServiceImpl
@@ -65,29 +64,25 @@ services:
             $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
             $projectId: '%openclassrooms_onesky.project_id%'
             $languageService: '@openclassrooms.onesky.services.language_service'
-        tag:
-            name: "console.command"
+        tags: ['console.command']
 
     OpenClassrooms\Bundle\OneSkyBundle\Command\PullCommand:
         arguments:
             $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
             $projectId: '%openclassrooms_onesky.project_id%'
             $translationService: '@openclassrooms.onesky.services.translation_service'
-        tag:
-            name: "console.command"
+        tags: ['console.command']
 
     OpenClassrooms\Bundle\OneSkyBundle\Command\PushCommand:
         arguments:
             $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
             $projectId: '%openclassrooms_onesky.project_id%'
             $translationService: '@openclassrooms.onesky.services.translation_service'
-        tag:
-            name: "console.command"
+        tags: ['console.command']
 
     OpenClassrooms\Bundle\OneSkyBundle\Command\UpdateCommand:
         arguments:
             $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
             $projectId: '%openclassrooms_onesky.project_id%'
             $translationService: '@openclassrooms.onesky.services.translation_service'
-        tag:
-            name: "console.command"
+        tags: ['console.command']

@@ -25,6 +25,7 @@ abstract class Command extends \Symfony\Component\Console\Command\Command
     protected int $projectId;
 
     abstract protected function getCommandName(): string;
+
     abstract protected function getCommandDescription(): string;
 
     protected function handlePullDisplay(OutputInterface $output): void

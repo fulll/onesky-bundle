@@ -11,9 +11,6 @@ use OpenClassrooms\Bundle\OneSkyBundle\Services\LanguageService;
  */
 class LanguageServiceImpl implements LanguageService
 {
-    /**
-     * @var LanguageGateway
-     */
     private LanguageGateway $languageGateway;
 
     /**

@@ -2,8 +2,6 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Services;
 
-use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
-use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\FileService;
 
 class FileServiceMock implements FileService

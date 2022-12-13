@@ -17,7 +17,8 @@ use Symfony\Component\Finder\SplFileInfo;
 class TranslationServiceImpl implements TranslationService
 {
     private EventDispatcherInterface $eventDispatcher;
-    private array $filePaths;private FileFactory $fileFactory;
+    private array $filePaths;
+    private FileFactory $fileFactory;
     private string $fileFormat;
     private FileService $fileService;
     private array $requestedLocales;

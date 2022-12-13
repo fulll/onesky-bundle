@@ -27,12 +27,14 @@ class InMemoryFileGateway implements FileGateway
     public function downloadTranslations(array $files): array
     {
         self::$downloadedFiles = $files;
+
         return [];
     }
 
     public function uploadTranslations(array $files): array
     {
         self::$uploadedFiles = $files;
+
         return [];
     }
 }

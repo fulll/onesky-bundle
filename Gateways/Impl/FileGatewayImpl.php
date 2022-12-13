@@ -47,7 +47,7 @@ class FileGatewayImpl implements FileGateway
     private function checkTranslation($downloadedContent, ExportFile $file): void
     {
         if (0 === strpos($downloadedContent, '{')) {
-            $json = json_decode($downloadedContent, true, 512, JSON_THROW_ON_ERROR);
+            $json = json_decode($downloadedContent, true, 512, \JSON_THROW_ON_ERROR);
 
             if (null !== $json && \array_key_exists('meta', $json) && 400 === $json['meta']['status']) {
                 throw new NonExistingTranslationException($file->getTargetFilePath());

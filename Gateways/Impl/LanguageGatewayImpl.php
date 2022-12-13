@@ -21,7 +21,7 @@ class LanguageGatewayImpl implements LanguageGateway
     public function findLanguages(array $locales): array
     {
         $jsonResponse = $this->client->projects(self::LANGUAGES_METHOD, ['project_id' => $this->projectId]);
-        $response = json_decode($jsonResponse, true, 512, JSON_THROW_ON_ERROR);
+        $response = json_decode($jsonResponse, true, 512, \JSON_THROW_ON_ERROR);
 
         $this->checkResponse($response, $jsonResponse);
 

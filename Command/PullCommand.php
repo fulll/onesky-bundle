@@ -2,7 +2,6 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Command;
 
-use OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\LanguageServiceImpl;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\TranslationService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

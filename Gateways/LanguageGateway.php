@@ -10,6 +10,7 @@ interface LanguageGateway
 
     /**
      * @return Language[]
+     *
      * @throws LanguageException
      */
     public function findLanguages(array $locales);

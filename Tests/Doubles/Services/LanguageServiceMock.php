@@ -2,7 +2,6 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Services;
 
-use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\LanguageService;
 
 class LanguageServiceMock implements LanguageService

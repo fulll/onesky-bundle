@@ -12,12 +12,14 @@ interface FileGateway
 
     /**
      * @param ExportFile[] $files
+     *
      * @return ExportFile[] $files
      */
     public function downloadTranslations(array $files): array;
 
     /**
      * @param UploadFile[] $files
+     *
      * @return UploadFile[] $files
      */
     public function uploadTranslations(array $files): array;
