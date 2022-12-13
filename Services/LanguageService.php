@@ -2,13 +2,12 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Services;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
+use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
+
 interface LanguageService
 {
     /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     * @return Language[]
      */
-    public function getLanguages(array $locales = []);
+    public function getLanguages(array $locales = []): array;
 }

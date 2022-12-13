@@ -63,7 +63,7 @@ class FileServiceImplTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->service = new FileServiceImpl();
         $this->service->setFileGateway(new InMemoryFileGateway());

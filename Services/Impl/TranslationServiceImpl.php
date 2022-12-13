@@ -14,60 +14,23 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class TranslationServiceImpl implements TranslationService
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
+    private array $filePaths;private FileFactory $fileFactory;
+    private string $fileFormat;
+    private FileService $fileService;
+    private array $requestedLocales;
+    private string $sourceLocale;
 
-    /**
-     * @var string[]
-     */
-    private $filePaths;
-
-    /**
-     * @var FileFactory
-     */
-    private $fileFactory;
-
-    /**
-     * @var string
-     */
-    private $fileFormat;
-
-    /**
-     * @var FileService
-     */
-    private $fileService;
-
-    /**
-     * @var string[]
-     */
-    private $requestedLocales;
-
-    /**
-     * @var string
-     */
-    private $sourceLocale;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(array $filePaths = [], array $locales = [])
+    public function update(array $filePaths = [], array $locales = []): array
     {
-        $this->eventDispatcher->dispatch(TranslationUpdateEvent::getEventName(), new TranslationUpdateEvent());
+        $this->eventDispatcher->dispatch(new TranslationUpdateEvent(), TranslationUpdateEvent::getEventName());
 
         return [$this->pull($filePaths, $locales), $this->push($filePaths)];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function pull(array $filePaths, array $locales = [])
+    public function pull(array $filePaths, array $locales = []): array
     {
         $exportFiles = [];
         /** @var SplFileInfo $file */
@@ -78,24 +41,21 @@ class TranslationServiceImpl implements TranslationService
         }
 
         $this->eventDispatcher->dispatch(
-            TranslationPrePullEvent::getEventName(),
-            new TranslationPrePullEvent($exportFiles)
+            new TranslationPrePullEvent($exportFiles),
+            TranslationPrePullEvent::getEventName()
         );
 
         $downloadedFiles = $this->fileService->download($exportFiles);
 
         $this->eventDispatcher->dispatch(
-            TranslationPostPullEvent::getEventName(),
-            new TranslationPostPullEvent($downloadedFiles)
+            new TranslationPostPullEvent($downloadedFiles),
+            TranslationPostPullEvent::getEventName()
         );
 
         return $downloadedFiles;
     }
 
-    /**
-     * @return Finder
-     */
-    private function getFiles(array $filePaths, array $locales)
+    private function getFiles(array $filePaths, array $locales): Finder
     {
         return Finder::create()
             ->files()
@@ -107,7 +67,7 @@ class TranslationServiceImpl implements TranslationService
     /**
      * @return string[]
      */
-    private function getFilePaths(array $filePaths)
+    private function getFilePaths(array $filePaths): array
     {
         return empty($filePaths) ? $this->filePaths : $filePaths;
     }
@@ -115,7 +75,7 @@ class TranslationServiceImpl implements TranslationService
     /**
      * @return string[]
      */
-    private function getSourceLocales(array $locales = [])
+    private function getSourceLocales(array $locales = []): array
     {
         return empty($locales) ? [$this->sourceLocale] : $locales;
     }
@@ -123,15 +83,12 @@ class TranslationServiceImpl implements TranslationService
     /**
      * @return string[]
      */
-    private function getRequestedLocales(array $locales)
+    private function getRequestedLocales(array $locales): array
     {
         return empty($locales) ? $this->requestedLocales : $locales;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function push(array $filePaths, array $locales = [])
+    public function push(array $filePaths, array $locales = []): array
     {
         $uploadFiles = [];
         /* @var SplFileInfo $file */
@@ -142,51 +99,51 @@ class TranslationServiceImpl implements TranslationService
         }
 
         $this->eventDispatcher->dispatch(
-            TranslationPrePushEvent::getEventName(),
-            new TranslationPrePushEvent($uploadFiles)
+            new TranslationPrePushEvent($uploadFiles),
+            TranslationPrePushEvent::getEventName()
         );
 
         $uploadedFiles = $this->fileService->upload($uploadFiles);
 
         $this->eventDispatcher->dispatch(
-            TranslationPostPushEvent::getEventName(),
-            new TranslationPostPushEvent($uploadedFiles)
+            new TranslationPostPushEvent($uploadedFiles),
+            TranslationPostPushEvent::getEventName()
         );
 
         return $uploadedFiles;
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function setFileFactory(FileFactory $fileFactory)
+    public function setFileFactory(FileFactory $fileFactory): void
     {
         $this->fileFactory = $fileFactory;
     }
 
-    public function setFileFormat($fileFormat)
+    public function setFileFormat($fileFormat): void
     {
         $this->fileFormat = $fileFormat;
     }
 
-    public function setFilePaths(array $filePaths)
+    public function setFilePaths(array $filePaths): void
     {
         $this->filePaths = $filePaths;
     }
 
-    public function setFileService(FileService $fileService)
+    public function setFileService(FileService $fileService): void
     {
         $this->fileService = $fileService;
     }
 
-    public function setRequestedLocales(array $requestedLocales)
+    public function setRequestedLocales(array $requestedLocales): void
     {
         $this->requestedLocales = $requestedLocales;
     }
 
-    public function setSourceLocale($sourceLocale)
+    public function setSourceLocale($sourceLocale): void
     {
         $this->sourceLocale = $sourceLocale;
     }

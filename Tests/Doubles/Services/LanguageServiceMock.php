@@ -5,25 +5,11 @@ namespace OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Services;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\LanguageService;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class LanguageServiceMock implements LanguageService
 {
-    /**
-     * @var bool
-     */
-    public static $calledGetLanguages;
-
-    /**
-     * @var Language[]
-     */
-    public static $languages;
-
-    /**
-     * @var string[]
-     */
-    public static $locales;
+    public static bool $calledGetLanguages;
+    public static array $languages;
+    public static array $locales;
 
     public function __construct()
     {
@@ -32,10 +18,7 @@ class LanguageServiceMock implements LanguageService
         self::$locales = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getLanguages(array $locales = [])
+    public function getLanguages(array $locales = []): array
     {
         self::$calledGetLanguages = true;
         self::$locales = $locales;

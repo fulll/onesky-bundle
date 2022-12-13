@@ -13,25 +13,12 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class FileGatewayImpl implements FileGateway
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
+    private EventDispatcher $eventDispatcher;
 
-    /**
-     * @var EventDispatcher
-     */
-    private $eventDispatcher;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function downloadTranslations(array $files)
+    public function downloadTranslations(array $files): array
     {
         $downloadedFiles = [];
         foreach ($files as $file) {
@@ -44,17 +31,11 @@ class FileGatewayImpl implements FileGateway
         return $downloadedFiles;
     }
 
-    /**
-     * @return ExportFile
-     *
-     * @throws InvalidContentException
-     * @throws NonExistingTranslationException
-     */
-    private function downloadTranslation(ExportFile $file)
+    private function downloadTranslation(ExportFile $file): ExportFile
     {
         $this->eventDispatcher->dispatch(
-            TranslationDownloadTranslationEvent::getEventName(),
-            new TranslationDownloadTranslationEvent($file)
+            new TranslationDownloadTranslationEvent($file),
+            TranslationDownloadTranslationEvent::getEventName()
         );
         $downloadedContent = $this->client->translations(self::DOWNLOAD_METHOD, $file->format());
         $this->checkTranslation($downloadedContent, $file);
@@ -63,14 +44,10 @@ class FileGatewayImpl implements FileGateway
         return $file;
     }
 
-    /**
-     * @throws InvalidContentException
-     * @throws NonExistingTranslationException
-     */
-    private function checkTranslation($downloadedContent, ExportFile $file)
+    private function checkTranslation($downloadedContent, ExportFile $file): void
     {
         if (0 === strpos($downloadedContent, '{')) {
-            $json = json_decode($downloadedContent, true);
+            $json = json_decode($downloadedContent, true, 512, JSON_THROW_ON_ERROR);
 
             if (null !== $json && \array_key_exists('meta', $json) && 400 === $json['meta']['status']) {
                 throw new NonExistingTranslationException($file->getTargetFilePath());
@@ -84,10 +61,7 @@ class FileGatewayImpl implements FileGateway
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function uploadTranslations(array $files)
+    public function uploadTranslations(array $files): array
     {
         $uploadedFiles = [];
         foreach ($files as $file) {
@@ -97,26 +71,23 @@ class FileGatewayImpl implements FileGateway
         return $uploadedFiles;
     }
 
-    /**
-     * @return UploadFile
-     */
-    private function uploadTranslation(UploadFile $file)
+    private function uploadTranslation(UploadFile $file): UploadFile
     {
         $this->eventDispatcher->dispatch(
-            TranslationUploadTranslationEvent::getEventName(),
-            new TranslationUploadTranslationEvent($file)
+            new TranslationUploadTranslationEvent($file),
+            TranslationUploadTranslationEvent::getEventName()
         );
         $this->client->files(self::UPLOAD_METHOD, $file->format());
 
         return $file;
     }
 
-    public function setClient(Client $client)
+    public function setClient(Client $client): void
     {
         $this->client = $client;
     }
 
-    public function setEventDispatcher(EventDispatcher $eventDispatcher)
+    public function setEventDispatcher(EventDispatcher $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
     }

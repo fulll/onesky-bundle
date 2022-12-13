@@ -6,20 +6,10 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\FileService;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class FileServiceMock implements FileService
 {
-    /**
-     * @var ExportFile[]
-     */
-    public static $downloadedFiles = [];
-
-    /**
-     * @var UploadFile[]
-     */
-    public static $uploadedFiles = [];
+    public static array $downloadedFiles = [];
+    public static array $uploadedFiles = [];
 
     public function __construct()
     {
@@ -27,20 +17,14 @@ class FileServiceMock implements FileService
         self::$uploadedFiles = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function download(array $files)
+    public function download(array $files): array
     {
         self::$downloadedFiles = $files;
 
         return self::$downloadedFiles;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function upload(array $files)
+    public function upload(array $files): array
     {
         self::$uploadedFiles = $files;
 

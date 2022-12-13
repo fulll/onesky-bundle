@@ -14,31 +14,14 @@ use OpenClassrooms\Bundle\OneSkyBundle\Model\LanguageFactory;
  */
 class LanguageGatewayImpl implements LanguageGateway
 {
-    /**
-     * @var Client
-     */
-    private $client;
+    private Client $client;
+    private LanguageFactory $languageFactory;
+    private int $projectId;
 
-    /**
-     * @var LanguageFactory
-     */
-    private $languageFactory;
-
-    /**
-     * @var int
-     */
-    private $projectId;
-
-    /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
-     *
-     * @throws LanguageException
-     * @throws LanguageNotFoundException
-     */
-    public function findLanguages(array $locales)
+    public function findLanguages(array $locales): array
     {
         $jsonResponse = $this->client->projects(self::LANGUAGES_METHOD, ['project_id' => $this->projectId]);
-        $response = json_decode($jsonResponse, true);
+        $response = json_decode($jsonResponse, true, 512, JSON_THROW_ON_ERROR);
 
         $this->checkResponse($response, $jsonResponse);
 
@@ -55,10 +38,7 @@ class LanguageGatewayImpl implements LanguageGateway
         return $requestedLanguages;
     }
 
-    /**
-     * @throws LanguageException
-     */
-    private function checkResponse($response, $jsonResponse)
+    private function checkResponse($response, $jsonResponse): void
     {
         if (200 !== $response['meta']['status']) {
             throw new LanguageException($jsonResponse);
@@ -66,7 +46,7 @@ class LanguageGatewayImpl implements LanguageGateway
     }
 
     /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     * @return Language[]
      */
     private function createLanguages($response)
     {
@@ -80,7 +60,7 @@ class LanguageGatewayImpl implements LanguageGateway
      *
      * @return Language[]
      */
-    private function formatLanguages(array $languages)
+    private function formatLanguages(array $languages): array
     {
         $languageLocales = [];
         foreach ($languages as $language) {
@@ -90,17 +70,17 @@ class LanguageGatewayImpl implements LanguageGateway
         return $languageLocales;
     }
 
-    public function setClient(Client $client)
+    public function setClient(Client $client): void
     {
         $this->client = $client;
     }
 
-    public function setLanguageFactory(LanguageFactory $languageFactory)
+    public function setLanguageFactory(LanguageFactory $languageFactory): void
     {
         $this->languageFactory = $languageFactory;
     }
 
-    public function setProjectId($projectId)
+    public function setProjectId($projectId): void
     {
         $this->projectId = $projectId;
     }
