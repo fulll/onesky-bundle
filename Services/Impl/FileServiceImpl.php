@@ -6,17 +6,11 @@ use OpenClassrooms\Bundle\OneSkyBundle\Gateways\FileGateway;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\FileService;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class FileServiceImpl implements FileService
 {
-    /**
-     * @var FileGateway
-     */
-    private $fileGateway;
+    private FileGateway $fileGateway;
 
-    public function download(array $files)
+    public function download(array $files): array
     {
         return $this->fileGateway->downloadTranslations($files);
     }
@@ -24,12 +18,12 @@ class FileServiceImpl implements FileService
     /**
      * @param UploadFile[] $files
      */
-    public function upload(array $files)
+    public function upload(array $files): array
     {
         return $this->fileGateway->uploadTranslations($files);
     }
 
-    public function setFileGateway(FileGateway $fileGateway)
+    public function setFileGateway(FileGateway $fileGateway): void
     {
         $this->fileGateway = $fileGateway;
     }

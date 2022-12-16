@@ -176,7 +176,7 @@ class TranslationServiceImplTest extends \PHPUnit\Framework\TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->service = new TranslationServiceImpl();
         $fileFactory = new FileFactoryImpl();

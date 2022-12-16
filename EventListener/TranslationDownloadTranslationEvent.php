@@ -3,37 +3,25 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\EventListener;
 
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class TranslationDownloadTranslationEvent extends Event
 {
     public const EVENT_NAME = 'openclassrooms.onesky.event.download_translation';
 
-    /**
-     * @var ExportFile
-     */
-    private $exportFile;
+    private ExportFile $exportFile;
 
     public function __construct(ExportFile $exportFile)
     {
         $this->exportFile = $exportFile;
     }
 
-    /**
-     * @return string
-     */
-    public static function getEventName()
+    public static function getEventName(): string
     {
         return self::EVENT_NAME;
     }
 
-    /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile
-     */
-    public function getExportFile()
+    public function getExportFile(): ExportFile
     {
         return $this->exportFile;
     }

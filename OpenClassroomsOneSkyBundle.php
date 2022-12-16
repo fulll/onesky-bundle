@@ -10,9 +10,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class OpenClassroomsOneSkyBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getContainerExtension()
     {
         return new OpenClassroomsOneSkyExtension();

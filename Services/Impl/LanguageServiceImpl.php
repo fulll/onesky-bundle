@@ -3,6 +3,7 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\Services\Impl;
 
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\LanguageGateway;
+use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
 use OpenClassrooms\Bundle\OneSkyBundle\Services\LanguageService;
 
 /**
@@ -10,20 +11,17 @@ use OpenClassrooms\Bundle\OneSkyBundle\Services\LanguageService;
  */
 class LanguageServiceImpl implements LanguageService
 {
-    /**
-     * @var LanguageGateway
-     */
-    private $languageGateway;
+    private LanguageGateway $languageGateway;
 
     /**
      * @var string[]
      */
-    private $requestedLocales;
+    private array $requestedLocales;
 
     /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     * @return Language[]
      */
-    public function getLanguages(array $locales = [])
+    public function getLanguages(array $locales = []): array
     {
         if (empty($locales)) {
             $locales = $this->requestedLocales;
@@ -32,12 +30,12 @@ class LanguageServiceImpl implements LanguageService
         return $this->languageGateway->findLanguages($locales);
     }
 
-    public function setLanguageGateway(LanguageGateway $languageGateway)
+    public function setLanguageGateway(LanguageGateway $languageGateway): void
     {
         $this->languageGateway = $languageGateway;
     }
 
-    public function setRequestedLocales(array $requestedLocales)
+    public function setRequestedLocales(array $requestedLocales): void
     {
         $this->requestedLocales = $requestedLocales;
     }

@@ -3,40 +3,27 @@
 namespace OpenClassrooms\Bundle\OneSkyBundle\EventListener;
 
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class TranslationPrePullEvent extends Event
 {
     public const EVENT_NAME = 'openclassrooms.onesky.event.pre_pull';
 
-    /**
-     * @var ExportFile[]
-     */
-    private $exportFiles;
+    /** @var ExportFile[] */
+    private array $exportFiles;
 
-    /**
-     * @param ExportFile[] $exportFiles
-     */
+    /** @param ExportFile[] $exportFiles */
     public function __construct(array $exportFiles)
     {
         $this->exportFiles = $exportFiles;
     }
 
-    /**
-     * @return string
-     */
-    public static function getEventName()
+    public static function getEventName(): string
     {
         return self::EVENT_NAME;
     }
 
-    /**
-     * @return int
-     */
-    public function getExportFilesCount()
+    public function getExportFilesCount(): int
     {
         return \count($this->exportFiles);
     }

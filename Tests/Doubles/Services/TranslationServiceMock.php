@@ -13,50 +13,17 @@ use OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Model\ExportFileStub1;
 use OpenClassrooms\Bundle\OneSkyBundle\Tests\Doubles\Model\UploadFileStub1;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class TranslationServiceMock implements TranslationService
 {
-    /**
-     * @var string[]
-     */
-    public static $pulledFilePaths = [];
+    public static array $pulledFilePaths = [];
+    public static bool $pullCalled = false;
+    public static array $pushedFilePaths = [];
+    public static bool $pushCalled = false;
+    public static array $updatedFilePaths = [];
+    public static bool $updateCalled = false;
+    public static array $locales = [];
 
-    /**
-     * @var bool
-     */
-    public static $pullCalled = false;
-
-    /**
-     * @var string[]
-     */
-    public static $pushedFilePaths = [];
-
-    /**
-     * @var bool
-     */
-    public static $pushCalled = false;
-
-    /**
-     * @var string[]
-     */
-    public static $updatedFilePaths = [];
-
-    /**
-     * @var bool
-     */
-    public static $updateCalled = false;
-
-    /**
-     * @var string[]
-     */
-    public static $locales = [];
-
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
+    private EventDispatcherInterface $eventDispatcher;
 
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
@@ -70,57 +37,54 @@ class TranslationServiceMock implements TranslationService
         self::$locales = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function pull(array $filePaths, array $locales = [])
+    public function pull(array $filePaths, array $locales = []): array
     {
         $this->eventDispatcher->dispatch(
-            TranslationPrePullEvent::getEventName(),
-            new TranslationPrePullEvent([new ExportFileStub1()])
+            new TranslationPrePullEvent([new ExportFileStub1()]),
+            TranslationPrePullEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationDownloadTranslationEvent::getEventName(),
-            new TranslationDownloadTranslationEvent(new ExportFileStub1())
+            new TranslationDownloadTranslationEvent(new ExportFileStub1()),
+            TranslationDownloadTranslationEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationPostPullEvent::getEventName(),
-            new TranslationPostPullEvent([new ExportFileStub1()])
+            new TranslationPostPullEvent([new ExportFileStub1()]),
+            TranslationPostPullEvent::getEventName()
         );
         self::$pullCalled = true;
         self::$pulledFilePaths = $filePaths;
         self::$locales = $locales;
+
+        return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function push(array $filePaths, array $locales = [])
+    public function push(array $filePaths, array $locales = []): array
     {
         $this->eventDispatcher->dispatch(
-            TranslationPrePushEvent::getEventName(),
-            new TranslationPrePushEvent([new UploadFileStub1()])
+            new TranslationPrePushEvent([new UploadFileStub1()]),
+            TranslationPrePushEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationUploadTranslationEvent::getEventName(),
-            new TranslationUploadTranslationEvent(new UploadFileStub1())
+            new TranslationUploadTranslationEvent(new UploadFileStub1()),
+            TranslationUploadTranslationEvent::getEventName()
         );
         $this->eventDispatcher->dispatch(
-            TranslationPostPushEvent::getEventName(),
-            new TranslationPostPushEvent([new UploadFileStub1()])
+            new TranslationPostPushEvent([new UploadFileStub1()]),
+            TranslationPostPushEvent::getEventName()
         );
         self::$pushCalled = true;
         self::$pushedFilePaths = $filePaths;
         self::$locales = $locales;
+
+        return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update(array $filePaths = [], array $locales = [])
+    public function update(array $filePaths = [], array $locales = []): array
     {
         self::$updateCalled = true;
         self::$updatedFilePaths = $filePaths;
         self::$locales = $locales;
+
+        return [];
     }
 }

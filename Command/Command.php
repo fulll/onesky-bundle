@@ -10,53 +10,37 @@ use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationPrePushEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\EventListener\TranslationUploadTranslationEvent;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-const PROGRESS_BAR_FORMAT = "<comment>%message%</comment>\n %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%";
-
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
-abstract class Command extends ContainerAwareCommand
+abstract class Command extends \Symfony\Component\Console\Command\Command
 {
-    /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
+    public const PROGRESS_BAR_FORMAT = "<comment>%message%</comment>\n %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%";
 
-    /**
-     * @var ProgressBar
-     */
-    private $progressBar;
+    private ProgressBar $progressBar;
 
-    /**
-     * @return string
-     */
-    abstract protected function getCommandName();
+    protected EventDispatcherInterface $eventDispatcher;
+    protected int $projectId;
 
-    /**
-     * @return string
-     */
-    abstract protected function getCommandDescription();
+    abstract protected function getCommandName(): string;
 
-    protected function handlePullDisplay(OutputInterface $output)
+    abstract protected function getCommandDescription(): string;
+
+    protected function handlePullDisplay(OutputInterface $output): void
     {
-        $dispatcher = $this->getContainer()->get('openclassrooms.onesky.event_dispatcher');
-        $dispatcher->addListener(
+        $this->eventDispatcher->addListener(
             TranslationPrePullEvent::getEventName(),
             function (TranslationPrePullEvent $event) use ($output) {
                 $output->writeln('<info>Pulling for project id '.$this->getProjectId()."</info>\n");
                 $this->progressBar = new ProgressBar($output, $event->getExportFilesCount());
-                $this->progressBar->setFormat(PROGRESS_BAR_FORMAT);
+                $this->progressBar->setFormat(self::PROGRESS_BAR_FORMAT);
                 $this->getProgressBar()->start();
             }
         );
 
-        $dispatcher->addListener(
+        $this->eventDispatcher->addListener(
             TranslationDownloadTranslationEvent::getEventName(),
             function (TranslationDownloadTranslationEvent $event) {
                 $this->getProgressBar()->setMessage(
@@ -66,7 +50,7 @@ abstract class Command extends ContainerAwareCommand
             }
         );
 
-        $dispatcher->addListener(
+        $this->eventDispatcher->addListener(
             TranslationPostPullEvent::getEventName(),
             function (TranslationPostPullEvent $event) use ($output) {
                 $this->progressBar->finish();
@@ -87,36 +71,29 @@ abstract class Command extends ContainerAwareCommand
         );
     }
 
-    /**
-     * @return string
-     */
-    private function getProjectId()
+    private function getProjectId(): string
     {
-        return $this->getContainer()->getParameter('openclassrooms_onesky.project_id');
+        return $this->projectId;
     }
 
-    /**
-     * @return ProgressBar
-     */
-    private function getProgressBar()
+    private function getProgressBar(): ProgressBar
     {
         return $this->progressBar;
     }
 
-    protected function handlePushDisplay(OutputInterface $output)
+    protected function handlePushDisplay(OutputInterface $output): void
     {
-        $dispatcher = $this->getContainer()->get('openclassrooms.onesky.event_dispatcher');
-        $dispatcher->addListener(
+        $this->eventDispatcher->addListener(
             TranslationPrePushEvent::getEventName(),
             function (TranslationPrePushEvent $event) use ($output) {
                 $output->writeln('<info>Pushing for project id '.$this->getProjectId()."</info>\n");
                 $this->progressBar = new ProgressBar($output, $event->getUploadFilesCount());
-                $this->progressBar->setFormat(PROGRESS_BAR_FORMAT);
+                $this->progressBar->setFormat(self::PROGRESS_BAR_FORMAT);
                 $this->getProgressBar()->start();
             }
         );
 
-        $dispatcher->addListener(
+        $this->eventDispatcher->addListener(
             TranslationUploadTranslationEvent::getEventName(),
             function (TranslationUploadTranslationEvent $event) {
                 $this->getProgressBar()->setMessage($event->getUploadFile()->getSourceFilePathRelativeToProject());
@@ -124,7 +101,7 @@ abstract class Command extends ContainerAwareCommand
             }
         );
 
-        $dispatcher->addListener(
+        $this->eventDispatcher->addListener(
             TranslationPostPushEvent::getEventName(),
             function (TranslationPostPushEvent $event) use ($output) {
                 $this->progressBar->finish();

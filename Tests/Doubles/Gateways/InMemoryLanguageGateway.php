@@ -6,25 +6,19 @@ use OpenClassrooms\Bundle\OneSkyBundle\Gateways\LanguageGateway;
 use OpenClassrooms\Bundle\OneSkyBundle\Gateways\LanguageNotFoundException;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class InMemoryLanguageGateway implements LanguageGateway
 {
     /**
      * @var Language[]
      */
-    public static $languages;
+    public static array $languages;
 
     public function __construct(array $languages = [])
     {
         self::$languages = $languages;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function findLanguages(array $locales = [])
+    public function findLanguages(array $locales = []): array
     {
         $languages = [];
         foreach ($locales as $locale) {

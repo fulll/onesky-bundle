@@ -1,0 +1,88 @@
+services:
+    _defaults:
+        autowire: "true"
+        autoconfigure: "true"
+
+    openclassrooms.onesky.client:
+        class: Onesky\Api\Client
+        calls:
+          - setApiKey: ["%openclassrooms_onesky.api_key%"]
+          - setSecret: ["%openclassrooms_onesky.api_secret%"]
+
+    openclassrooms.onesky.event_dispatcher:
+        class: Symfony\Component\EventDispatcher\EventDispatcher
+
+    openclassrooms.onesky.gateways.file:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl\FileGatewayImpl
+        calls:
+          - setClient: ['@openclassrooms.onesky.client']
+          - setEventDispatcher: ['@openclassrooms.onesky.event_dispatcher']
+
+    openclassrooms.onesky.gateways.language:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Gateways\Impl\LanguageGatewayImpl
+        calls:
+          - setClient: [ "@openclassrooms.onesky.client"]
+          - setLanguageFactory: ["@openclassrooms.onesky.model.language_factory"]
+          - setProjectId: ["%openclassrooms_onesky.project_id%"]
+
+    openclassrooms.onesky.model.file_factory:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\FileFactoryImpl
+        calls:
+          - setKeepingAllStrings: ["%openclassrooms_onesky.keep_all_strings%"]
+          - setFileFormat: ["%openclassrooms_onesky.file_format%"]
+          - setKernelRootDir: ["%kernel.project_dir%"]
+          - setProjectId: ["%openclassrooms_onesky.project_id%"]
+          - setSourceLocale: ["%openclassrooms_onesky.source_locale%"]
+
+    openclassrooms.onesky.model.language_factory:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Model\Impl\LanguageFactoryImpl
+
+    openclassrooms.onesky.services.file_service:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\FileServiceImpl
+        calls:
+          - setFileGateway: ["@openclassrooms.onesky.gateways.file"]
+
+    openclassrooms.onesky.services.language_service:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\LanguageServiceImpl
+        calls:
+          - setLanguageGateway: ["@openclassrooms.onesky.gateways.language"]
+          - setRequestedLocales: ["%openclassrooms_onesky.locales%"]
+
+    openclassrooms.onesky.services.translation_service:
+        class: OpenClassrooms\Bundle\OneSkyBundle\Services\Impl\TranslationServiceImpl
+        calls:
+          - setEventDispatcher: ["@openclassrooms.onesky.event_dispatcher"]
+          - setFileFactory: ["@openclassrooms.onesky.model.file_factory"]
+          - setFileFormat: ["%openclassrooms_onesky.file_format%"]
+          - setFilePaths: ["%openclassrooms_onesky.file_paths%"]
+          - setFileService: ["@openclassrooms.onesky.services.file_service"]
+          - setRequestedLocales: ["%openclassrooms_onesky.locales%"]
+          - setSourceLocale: ["%openclassrooms_onesky.source_locale%"]
+
+    OpenClassrooms\Bundle\OneSkyBundle\Command\CheckTranslationProgressCommand:
+        arguments:
+            $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
+            $projectId: '%openclassrooms_onesky.project_id%'
+            $languageService: '@openclassrooms.onesky.services.language_service'
+        tags: ['console.command']
+
+    OpenClassrooms\Bundle\OneSkyBundle\Command\PullCommand:
+        arguments:
+            $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
+            $projectId: '%openclassrooms_onesky.project_id%'
+            $translationService: '@openclassrooms.onesky.services.translation_service'
+        tags: ['console.command']
+
+    OpenClassrooms\Bundle\OneSkyBundle\Command\PushCommand:
+        arguments:
+            $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
+            $projectId: '%openclassrooms_onesky.project_id%'
+            $translationService: '@openclassrooms.onesky.services.translation_service'
+        tags: ['console.command']
+
+    OpenClassrooms\Bundle\OneSkyBundle\Command\UpdateCommand:
+        arguments:
+            $eventDispatcher: '@openclassrooms.onesky.event_dispatcher'
+            $projectId: '%openclassrooms_onesky.project_id%'
+            $translationService: '@openclassrooms.onesky.services.translation_service'
+        tags: ['console.command']

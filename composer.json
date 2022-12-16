@@ -30,19 +30,19 @@
     }
   },
   "require": {
-    "php": "^7.1",
+    "php": ">=7.4",
     "onesky/api-library-php5": "^1.0",
-    "symfony/dependency-injection": "~2.8|~3.0|~4.0",
-    "symfony/console": "~2.8|~3.0|~4.0",
-    "symfony/config": "~2.8|~3.0|~4.0",
-    "symfony/finder": "~2.8|~3.0|~4.0",
-    "symfony/framework-bundle": "~2.8|~3.0|~4.0",
-    "symfony/http-kernel": "~2.8|~3.0|~4.0",
+    "symfony/dependency-injection": ">=4.4",
+    "symfony/console": ">=4.4",
+    "symfony/config": ">=4.4",
+    "symfony/finder": ">=4.4",
+    "symfony/framework-bundle": ">=4.4",
+    "symfony/http-kernel": ">=4.4",
     "ext-json": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.5.0",
-    "satooshi/php-coveralls": "^2.2"
+    "phpunit/phpunit": "^9.5.27",
+    "php-coveralls/php-coveralls": "^2.5"
   },
   "extra": {
     "branch-alias": {

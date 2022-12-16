@@ -2,15 +2,14 @@
 
 namespace OpenClassrooms\Bundle\OneSkyBundle\Gateways;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
+use OpenClassrooms\Bundle\OneSkyBundle\Model\Language;
+
 interface LanguageGateway
 {
     public const LANGUAGES_METHOD = 'languages';
 
     /**
-     * @return \OpenClassrooms\Bundle\OneSkyBundle\Model\Language[]
+     * @return Language[]
      *
      * @throws LanguageException
      */

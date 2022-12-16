@@ -6,20 +6,17 @@ use OpenClassrooms\Bundle\OneSkyBundle\Gateways\FileGateway;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\ExportFile;
 use OpenClassrooms\Bundle\OneSkyBundle\Model\UploadFile;
 
-/**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
- */
 class InMemoryFileGateway implements FileGateway
 {
     /**
      * @var ExportFile[]
      */
-    public static $downloadedFiles = [];
+    public static array $downloadedFiles = [];
 
     /**
      * @var UploadFile[]
      */
-    public static $uploadedFiles = [];
+    public static array $uploadedFiles = [];
 
     public function __construct()
     {
@@ -27,19 +24,17 @@ class InMemoryFileGateway implements FileGateway
         self::$uploadedFiles = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function downloadTranslations(array $files)
+    public function downloadTranslations(array $files): array
     {
         self::$downloadedFiles = $files;
+
+        return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function uploadTranslations(array $files)
+    public function uploadTranslations(array $files): array
     {
         self::$uploadedFiles = $files;
+
+        return [];
     }
 }
