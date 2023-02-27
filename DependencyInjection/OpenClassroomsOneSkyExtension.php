@@ -32,10 +32,7 @@ class OpenClassroomsOneSkyExtension extends Extension
         $container->setParameter('openclassrooms_onesky.keep_all_strings', $config['keep_all_strings']);
     }
 
-    /**
-     * @return string
-     */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'openclassrooms_onesky';
     }

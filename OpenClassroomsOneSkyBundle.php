@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class OpenClassroomsOneSkyBundle extends Bundle
 {
-    public function getContainerExtension()
+    public function getContainerExtension(): OpenClassroomsOneSkyExtension
     {
         return new OpenClassroomsOneSkyExtension();
     }
